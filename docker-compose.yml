@@ -1,0 +1,19 @@
+version: '3.8'
+services:
+  db:
+     image: "mysql"
+     environment:
+       MYSQL_ROOT_PASSWORD: password
+     volumes:
+       - db-data:/var/lib/mysql
+       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql # Les scripts ":/docker-entrypoint-initdb.d/init.sql" sont exécutés seulement lors de la première initialisation du conteneur de base de données.
+     ports:
+       - "3306:3306"
+
+  back2:
+    build: .
+    ports:
+      - "3000:3000"
+
+volumes:
+  db-data:
