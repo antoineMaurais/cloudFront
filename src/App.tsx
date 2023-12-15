@@ -7,6 +7,9 @@ interface Student {
   className: string;
 }
 
+// const IP = "http://192.168.100.102:3000"
+const IP = "http://148.60.225.219:3000"
+
 const App: React.FC = () => {
   const [students, setStudents] = useState<Student[]>([]);
   const [apiStatus, setApiStatus] = useState('');
@@ -14,13 +17,13 @@ const App: React.FC = () => {
 
   useEffect(() => {
     // Vérification de la connexion à l'API
-    fetch('http://192.168.100.102:3000/')
+    fetch(IP+'/')
       .then(response => response.text())
       .then(data => setApiStatus(data))
       .catch(err => setApiStatus('Erreur lors de la connexion à l\'API'));
 
     // Récupération des étudiants
-    fetch('http://192.168.100.102:3000/personnes')
+    fetch(IP+'/personnes')
       .then(response => response.json())
       .then(data => setStudents(data));
   }, []);
@@ -31,7 +34,7 @@ const App: React.FC = () => {
   };
 
   const handleAddStudent = () => {
-    fetch('http://192.168.100.102:3000/personnes', {
+    fetch(IP+'personnes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
