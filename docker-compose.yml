@@ -15,18 +15,7 @@ services:
      #ports:
       # - "3306:3306"
 
-  #back:
-   # build: back
-    #ports:
-     # - "3000:3000"
-
-#volumes:
- # db-data:
-
-
-#  db:
-#    image: "mysql"
-#    environment:
-#      MYSQL_ROOT_PASSWORD: password
-#    volumes:
-#      - db-data:/foo
+  api:
+    build: .
+    ports:
+      - "3000:3000"
