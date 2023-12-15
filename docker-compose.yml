@@ -10,8 +10,10 @@ services:
      ports:
        - "3306:3306"
 
-  back2:
+  api:
     build: .
+    depends_on:
+      - db
     ports:
       - "3000:3000"
 

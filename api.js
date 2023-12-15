@@ -9,6 +9,7 @@ const db = mysql.createConnection({
   host: 'db', // Nom du service dans docker-compose
   user: 'root', // Modifiez selon vos paramètres
   password: 'password', // Modifiez selon vos paramètres
+  date: Date.now,
   database: 'cours' // Modifiez selon vos paramètres
 });
 
@@ -48,6 +49,9 @@ app.post('/personnes', (req, res) => {
       res.status(201).json({ id: result.insertId, nom, prenom, class, date });
   });
 });
+
+
+
 
 // Démarrage du serveur
 app.listen(port, () => {
