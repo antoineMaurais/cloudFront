@@ -9,10 +9,18 @@ interface Student {
 
 const App: React.FC = () => {
   const [students, setStudents] = useState<Student[]>([]);
+  const [apiStatus, setApiStatus] = useState('');
   const [newStudent, setNewStudent] = useState({ firstName: '', lastName: '', className: '' });
 
   useEffect(() => {
-    fetch('/api/students')
+    // Vérification de la connexion à l'API
+    fetch('http://192.168.100.102:3000/')
+      .then(response => response.text())
+      .then(data => setApiStatus(data))
+      .catch(err => setApiStatus('Erreur lors de la connexion à l\'API'));
+
+    // Récupération des étudiants
+    fetch('http://192.168.100.102:3000/personnes')
       .then(response => response.json())
       .then(data => setStudents(data));
   }, []);
@@ -23,7 +31,7 @@ const App: React.FC = () => {
   };
 
   const handleAddStudent = () => {
-    fetch('/api/students', {
+    fetch('http://192.168.100.102:3000/personnes', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -37,6 +45,7 @@ const App: React.FC = () => {
   return (
     <div>
       <h1>School Management System</h1>
+      {apiStatus && <p>Statut de l'API : {apiStatus}</p>}
       <div>
         <h2>Add Student</h2>
         <input type="text" name="firstName" placeholder="First Name" onChange={handleInputChange} />
