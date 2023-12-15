@@ -1,58 +1,58 @@
-const express = require('express');
-const mysql = require('mysql');
+import express from 'express';
+import mysql from 'mysql';
 
 const app = express();
 const port = 3000;
 
-// Paramètres de connexion à la base de données
+// Parameters for connecting to the database
 const db = mysql.createConnection({
-  host: 'db', // Nom du service dans docker-compose
-  user: 'root', // Modifiez selon vos paramètres
-  password: 'password', // Modifiez selon vos paramètres
-  database: 'cours' // Modifiez selon vos paramètres
+  host: '192.168.100.102', // Name of the service in docker-compose
+  user: 'root', // Modify according to your parameters
+  password: 'password', // Modify according to your parameters
+  database: 'cours' // Modify according to your parameters
 });
 
-// Connexion à la base de données
+// Connect to the database
 db.connect(err => {
   if (err) {
-    console.error('Erreur de connexion à la base de données:', err);
+    console.error('Error connecting to the database:', err);
     return;
   }
-  console.log('Connecté à la base de données');
+  console.log('Connected to the database');
 });
 
-// Middleware pour parser le JSON
+// Middleware to parse JSON
 app.use(express.json());
 
-// Route pour tester la connexion
+// Route to test the connection
 app.get('/', (req, res) => {
-  res.send('API fonctionnelle');
+  res.send('API is functional');
 });
 
-// Route pour obtenir toutes les personnes
+// Route to get all people
 app.get('/personnes', (req, res) => {
   db.query('SELECT * FROM personne', (err, results) => {
     if (err) {
-      return res.status(500).json({ error: 'Erreur lors de la récupération des données' });
+      return res.status(500).json({ error: 'Error retrieving data' });
     }
     res.json(results);
   });
 });
 
-// Route pour ajouter une personne
+// Route to add a person
 app.post('/personnes', (req, res) => {
-  const { nom, prenom, classe } = req.body; // 'class' est un mot-clé réservé en JS, utilisons 'classe'
+  const { nom, prenom, classe } = req.body; // 'class' is a reserved keyword in JS, so we use 'classe'
   db.query('INSERT INTO personne (nom, prenom, classe) VALUES (?, ?, ?)', 
     [nom, prenom, classe], 
     (err, result) => {
       if (err) {
-        return res.status(500).json({ error: 'Erreur lors de l\'ajout de la personne' });
+        return res.status(500).json({ error: 'Error adding the person' });
       }
       res.status(201).json({ id: result.insertId, nom, prenom, classe });
   });
 });
 
-// Démarrage du serveur
+// Start the server
 app.listen(port, () => {
-  console.log(`Serveur démarré sur http://localhost:${port}`);
+  console.log(`Server started on http://localhost:${port}`);
 });
