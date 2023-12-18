@@ -8,7 +8,8 @@ interface Student {
 }
 
 // const IP = "http://192.168.100.102:3000"
-const IP = "http://148.60.225.219:3000"
+// const IP = "http://148.60.225.219:3000"
+const IP = "api"
 
 const App: React.FC = () => {
   const [students, setStudents] = useState<Student[]>([]);
