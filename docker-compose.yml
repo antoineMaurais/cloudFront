@@ -3,12 +3,14 @@ services:
   db:
      image: "mysql"
      environment:
-       MYSQL_ROOT_PASSWORD: password
+       MYSQL_ROOT_PASSWORD: admin
      volumes:
        - db-data:/var/lib/mysql
        - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql # Les scripts ":/docker-entrypoint-initdb.d/init.sql" sont exécutés seulement lors de la première initialisation du conteneur de base de données.
+       - ./db/my-custom.cnf:/etc/mysql/conf.d/my-custom.cnf  # Montez le fichier de configuration personnalisé
      ports:
        - "3306:3306"
+     entrypoint: ["/docker-entrypoint.sh", "--init-file", "/docker-entrypoint-initdb.d/init.sql"]
 
 volumes:
   db-data:
