@@ -9,7 +9,7 @@ interface Student {
 
 // const IP = "http://192.168.100.102:3000"
 // const IP = "http://148.60.225.219:3000"
-const IP = "api"
+const IP = "http://api:3000";
 
 const App: React.FC = () => {
   const [students, setStudents] = useState<Student[]>([]);
@@ -24,9 +24,9 @@ const App: React.FC = () => {
       .catch(err => setApiStatus('Erreur lors de la connexion à l\'API'));
 
     // Récupération des étudiants
-    fetch(IP+'/personnes')
-      .then(response => response.json())
-      .then(data => setStudents(data));
+    fetch(IP + '/personnes') // Ajoutez un slash "/" ici
+        .then(response => response.json())
+        .then(data => setStudents(data));
   }, []);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,15 +35,15 @@ const App: React.FC = () => {
   };
 
   const handleAddStudent = () => {
-    fetch(IP+'personnes', {
+    fetch(IP + '/personnes', { // Ajoutez un slash "/" ici
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(newStudent),
     })
-      .then(response => response.json())
-      .then(data => setStudents([...students, data]));
+        .then(response => response.json())
+        .then(data => setStudents([...students, data]));
   };
 
   return (
